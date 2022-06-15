@@ -13,5 +13,6 @@ He has tested it in Linux using python 3.8 and I used python 3.10 in windows - b
 
 You will need to obtain the ASDM engine components either from Zhao's repo or use the ones contained in this repository for it to work. 
 
-The final model behaves as per the image below:
+The final model behaves as per the image below: (Image taken from Stella version)
 
+https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/requirements.txt 
