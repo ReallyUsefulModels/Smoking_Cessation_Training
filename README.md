@@ -15,4 +15,4 @@ You will need to obtain the ASDM engine components either from Zhao's repo or us
 
 The final model behaves as per the image below: (Image taken from Stella version)
 
-https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/requirements.txt 
+https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/Smoking_Cessation_Model.PNG
