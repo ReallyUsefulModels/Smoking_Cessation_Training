@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xmile version="1.0" xmlns="http://docs.oasis-open.org/xmile/ns/XMILE/v1.0" xmlns:isee="http://iseesystems.com/XMILE">
+	<header>
+		<smile version="1.0" namespace="std, isee" uses_arrays="1"/>
+		<name>smoking cessation demo</name>
+		<uuid>5ea8eaab-1635-49d0-b82f-57f9a5c4c3d4</uuid>
+		<vendor>isee systems, inc.</vendor>
+		<product version="1.1" isee:saved_by_v1="true" lang="en">Stella Architect</product>
+	</header>
+	<sim_specs isee:simulation_delay="0" method="Euler" time_units="Months" isee:pause_after_rates="false" isee:instantaneous_flows="false">
+		<start>0</start>
+		<stop>36</stop>
+		<dt>0.25</dt>
+	</sim_specs>
+	<dimensions>
+		<dim name="Dim_Name_1" size="1"/>
+	</dimensions>
+	<isee:prefs show_module_prefix="true" live_update_on_drag="true" layer="model"/>
+	<model_units/>
+	<isee:sensi_specs run="false" method="multivariate" runs="0"/>
+	<model>
+		<variables>
+			<stock name="Current smokers">
+				<eqn>900</eqn>
+				<format precision="10"/>
+				<outflow>Smokers_quitting</outflow>
+				<non_negative/>
+			</stock>
+			<aux name="Effect on spend per quitter">
+				<eqn>Current_smokers/INIT(Current_smokers)</eqn>
+				<format precision="0.1"/>
+			</aux>
+			<stock name="Ex smokers">
+				<eqn>100</eqn>
+				<format precision="10"/>
+				<inflow>Smokers_quitting</inflow>
+				<outflow>Ex_smokers_starting_again</outflow>
+				<non_negative/>
+			</stock>
+			<flow name="Smokers quitting">
+				<eqn>Smoking_cessation_service_funding/Spend_per_quitter</eqn>
+				<format precision="0.1"/>
+				<non_negative/>
+			</flow>
+			<aux name="Healthcare savings">
+				<eqn>Ex_smokers*Monthly_cost_savings_per_ex_smoker</eqn>
+				<format precision="100"/>
+			</aux>
+			<aux name="Monthly cost savings per ex smoker">
+				<eqn>50</eqn>
+				<format precision="0.1"/>
+			</aux>
+			<aux name="Smoking cessation service funding">
+				<eqn>Healthcare_savings*(Percentage_of_savings_spent_on_cessation/100)</eqn>
+				<format precision="100"/>
+			</aux>
+			<aux name="Spend per quitter">
+				<eqn>200/Effect_on_spend_per_quitter</eqn>
+				<format precision="10"/>
+			</aux>
+			<aux name="Percentage of savings spent on cessation">
+				<eqn>80</eqn>
+				<format precision="0.1"/>
+			</aux>
+			<stock name="Lapsed ex smokers">
+				<eqn>0</eqn>
+				<format precision="10"/>
+				<inflow>Ex_smokers_starting_again</inflow>
+				<non_negative/>
+			</stock>
+			<aux name="Average quitter failure rate">
+				<eqn>0.05</eqn>
+				<format precision="0.0001"/>
+			</aux>
+			<flow name="Ex smokers starting again">
+				<eqn>Ex_smokers*Average_quitter_failure_rate</eqn>
+				<format precision="0.1"/>
+				<non_negative/>
+			</flow>
+		</variables>
+		<views>
+			<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+				<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+				<numeric_display color="blue" background="white" font_size="9pt" isee:transparent="false"/>
+				<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" legend_position="bottom" isee:transparent="false" axis_label_font_size="9pt"/>
+				<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous" header_text_align="center"/>
+				<button color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" icon_side="top"/>
+				<isee:annotation color="black" background="#E0E0E0" font_size="12pt" transparent="false" corner_radius="0" icon_side="top" popup_background_color="#FFFECF" popup_text_align="left" popup_vertical_text_align="top"/>
+				<slider color="black" background="#E0E0E0" font_size="12pt" num_ticks="3" label_side="top"/>
+				<knob color="#66CC66" background="#E0E0E0" font_size="12pt" label_side="bottom"/>
+				<numeric_input color="black" background="#E0E0E0" font_size="12pt" label_side="left"/>
+				<switch color="black" background="#E0E0E0" font_size="12pt" label_side="top"/>
+				<options color="black" background="white" appearance="radio-buttons" arrangement="vertical"/>
+				<graphical_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<group_input color="black" background="#E0E0E0" font_size="12pt"/>
+				<lamp color="black" background="white" font_size="9pt"/>
+			</style>
+			<view isee:show_pages="true" isee:use_lettered_polarity="true" page_width="824" page_height="577" isee:page_cols="2" isee:popup_graphs_are_comparative="true" type="stock_flow">
+				<style color="black" background="white" font_style="normal" font_weight="normal" text_decoration="none" text_align="center" vertical_text_align="center" font_color="black" font_family="Arial" font_size="10pt" padding="2" border_color="black" border_width="thin" border_style="none">
+					<stock color="blue" background="white" font_color="blue" font_size="12pt" label_side="top" label_angle="0">
+						<shape type="rectangle" width="45" height="35"/>
+					</stock>
+					<flow color="blue" background="white" font_color="blue" font_size="12pt" label_side="bottom" label_angle="0"/>
+					<module color="blue" background="white" font_color="blue" font_size="12pt" label_side="top" label_angle="0">
+						<shape type="rectangle" width="55" height="45"/>
+					</module>
+					<aux color="blue" background="white" font_color="blue" font_size="12pt" label_side="bottom" label_angle="0">
+						<shape type="circle" radius="18"/>
+					</aux>
+					<group color="red" background="white" font_color="red" font_size="12pt"/>
+					<connector color="#FF007F" background="white" font_color="#FF007F" font_size="9pt" isee:thickness="1"/>
+					<text_box color="black" background="white" text_align="left" vertical_text_align="top" font_size="12pt"/>
+					<numeric_display color="blue" background="white" font_size="9pt" isee:transparent="false"/>
+					<graph color="black" background="white" font_size="12pt" axis_color="#666666" grid_color="#C8C8C8" legend_position="bottom" isee:transparent="false" axis_label_font_size="9pt"/>
+					<table color="black" background="#E0E0E0" text_align="right" font_size="12pt" orientation="vertical" wrap_text="false" isee:auto_fit="true" isee:use_alternate_row_colors="false" blank_column_width="80" column_width="160" isee:report_month_names="false" interval="1" report_balances="beginning" report_flows="instantaneous" header_text_align="center"/>
+				</style>
+				<connector uid="1" polarity="+" isee:polarity_placement="inside" angle="225">
+					<from>Healthcare_savings</from>
+					<to>Smoking_cessation_service_funding</to>
+				</connector>
+				<connector uid="2" polarity="+" isee:polarity_placement="inside" angle="232.595">
+					<from>Current_smokers</from>
+					<to>Effect_on_spend_per_quitter</to>
+				</connector>
+				<connector uid="3" angle="144.462">
+					<from>Percentage_of_savings_spent_on_cessation</from>
+					<to>Smoking_cessation_service_funding</to>
+				</connector>
+				<connector uid="4" polarity="+" isee:polarity_placement="inside" angle="313.152">
+					<from>Ex_smokers</from>
+					<to>Healthcare_savings</to>
+				</connector>
+				<connector uid="5" polarity="+" isee:polarity_placement="inside" angle="120.964">
+					<from>Smoking_cessation_service_funding</from>
+					<to>Smokers_quitting</to>
+				</connector>
+				<connector uid="6" angle="192.529">
+					<from>Monthly_cost_savings_per_ex_smoker</from>
+					<to>Healthcare_savings</to>
+				</connector>
+				<connector uid="7" polarity="+" isee:polarity_placement="inside" angle="36.8699">
+					<from>Spend_per_quitter</from>
+					<to>Smokers_quitting</to>
+				</connector>
+				<connector uid="8" polarity="-" isee:polarity_placement="inside" angle="296.565">
+					<from>Effect_on_spend_per_quitter</from>
+					<to>Spend_per_quitter</to>
+				</connector>
+				<connector uid="9" angle="180">
+					<from>Average_quitter_failure_rate</from>
+					<to>Ex_smokers_starting_again</to>
+				</connector>
+				<connector uid="10" polarity="+" isee:polarity_placement="inside" angle="50.5993">
+					<from>Ex_smokers</from>
+					<to>Ex_smokers_starting_again</to>
+				</connector>
+				<stock x="110" y="123" name="Current smokers"/>
+				<aux x="82" y="188" name="Effect on spend per quitter"/>
+				<stock x="391" y="123" name="Ex smokers"/>
+				<flow label_side="top" label_angle="90" x="244.5" y="118" name="Smokers quitting">
+					<pts>
+						<pt x="132.5" y="118"/>
+						<pt x="368.5" y="118"/>
+					</pts>
+				</flow>
+				<aux label_side="right" label_angle="360" x="394" y="207" name="Healthcare savings"/>
+				<aux x="484" y="251" name="Monthly cost savings per ex smoker"/>
+				<aux label_side="left" label_angle="180" x="278" y="238" name="Smoking cessation service funding"/>
+				<aux x="149" y="246" name="Spend per quitter"/>
+				<aux x="332" y="320" name="Percentage of savings spent on cessation"/>
+				<stock x="765" y="120" name="Lapsed ex smokers"/>
+				<aux x="713" y="214" name="Average quitter failure rate"/>
+				<flow label_side="right" label_angle="315" x="572" y="121" name="Ex smokers starting again">
+					<pts>
+						<pt x="413.5" y="121"/>
+						<pt x="742.5" y="121"/>
+					</pts>
+				</flow>
+				<text_box text_align="center" vertical_text_align="center" font_size="18pt" uid="11" x="307" y="164" width="23" height="27">R</text_box>
+				<text_box text_align="center" vertical_text_align="center" font_size="18pt" uid="12" x="142" y="145" width="23" height="27">B</text_box>
+				<text_box text_align="center" vertical_text_align="center" font_size="18pt" uid="13" x="472.5" y="82" width="23" height="27">B</text_box>
+			</view>
+			<view isee:show_pages="true" page_width="788" page_height="528" home_view="true" type="interface">
+				<style/>
+				<stacked_container uid="14" x="144" y="58" width="492" height="282">
+					<graph background="#FFFFC9" axis_label_font_size="9pt" x="390" y="199" type="time_series" isee:time_precision="1" isee:time_scale_by="1" show_grid="false" include_units_in_legend="false" plot_numbers="true" num_x_grid_lines="5" num_y_grid_lines="5" num_x_labels="7" num_y_labels="6" title="Smokers quitting or who have quit" left_axis_multi_scale="false" left_axis_auto_scale="false" right_axis_multi_scale="true" right_axis_auto_scale="true">
+						<plot color="blue" title="Ex smokers" pen_width="3" index="0" show_y_axis="true">
+							<format scale_by="1"/>
+							<entity name="Ex_smokers"/>
+							<scale min="0" max="1000"/>
+						</plot>
+						<plot color="red" pen_width="3" index="1" show_y_axis="true">
+							<format scale_by="1"/>
+							<entity name="Smokers_quitting"/>
+							<scale min="0" max="1000"/>
+						</plot>
+					</graph>
+				</stacked_container>
+				<slider color="blue" font_color="#191919" uid="15" x="180.5" y="385.5" width="197" height="43" increment="1" min="0" max="100" isee:navigate_to="true" show_name="true">
+					<format scale_by="1"/>
+					<entity name="Percentage_of_savings_spent_on_cessation"/>
+					<reset_to after="never"/>
+				</slider>
+				<button color="white" background="#B3B3B3" corner_radius="0" label="Restore All Devices" uid="16" x="25" y="130" width="89" height="40">
+					<actions>
+						<action>restore_all</action>
+					</actions>
+				</button>
+				<button color="white" background="#B3B3B3" corner_radius="0" label="Run" uid="17" x="25" y="76" width="89" height="40">
+					<actions>
+						<action>run_to_end</action>
+					</actions>
+				</button>
+				<button label="Story" uid="18" x="27" y="183" width="85" height="41">
+					<actions>
+						<action target="story" story="19" view="0">navigate</action>
+					</actions>
+				</button>
+				<slider uid="20" x="507" y="413" increment="0.01" min="0" max="0.1" isee:navigate_to="false" show_name="true">
+					<format precision="0.01"/>
+					<entity name="Average_quitter_failure_rate"/>
+					<reset_to after="never"/>
+				</slider>
+			</view>
+			<isee:templates>
+				<view isee:show_pages="false" page_width="788" page_height="528" type="template">
+					<style/>
+				</view>
+			</isee:templates>
+			<isee:stories>
+				<isee:story uid="19" name="Story 1">
+					<view isee:show_pages="false" page_width="788" page_height="528" type="interface">
+						<style/>
+						<isee:model_view uid="21" x="0" y="0" width="788" height="528" isee:locked="true" zoom="1" center_x="394" center_y="264" locked_view="true" use_visible_list="true">
+							<model name="Top-Level"/>
+							<isee:visible_list>
+								<entity name="Ex_smokers"/>
+								<entity name="Smoking_cessation_service_funding"/>
+								<entity name="Smokers_quitting"/>
+								<item uid="5"/>
+								<item uid="4"/>
+								<entity name="Healthcare_savings"/>
+								<item uid="11"/>
+								<item uid="1"/>
+							</isee:visible_list>
+							<isee:highlight_list/>
+						</isee:model_view>
+						<stacked_container uid="22" x="587" y="381">
+							<graph axis_label_font_size="9pt" x="412" y="256" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="7" num_y_labels="6" title="Number of ex-smokers" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+								<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+									<entity name="Ex_smokers"/>
+									<scale min="0" max="1000"/>
+								</plot>
+							</graph>
+						</stacked_container>
+						<button label="" uid="23" x="168" y="333">
+							<actions>
+								<action>start</action>
+							</actions>
+						</button>
+						<button label="Reset" uid="24" x="168" y="372">
+							<actions>
+								<action>restore_all</action>
+							</actions>
+						</button>
+						<button label="Next" uid="25" x="168" y="410">
+							<actions>
+								<action target="story" story="19" view="1">navigate</action>
+							</actions>
+						</button>
+					</view>
+					<view isee:show_pages="false" page_width="788" page_height="528" type="interface">
+						<style/>
+						<isee:model_view uid="26" x="0" y="0" width="788" height="528" isee:locked="true" zoom="1" center_x="394" center_y="264" locked_view="true" use_visible_list="true">
+							<model name="Top-Level"/>
+							<isee:visible_list>
+								<item uid="7"/>
+								<entity name="Spend_per_quitter"/>
+								<item uid="8"/>
+								<entity name="Effect_on_spend_per_quitter"/>
+								<item uid="2"/>
+								<entity name="Current_smokers"/>
+								<item uid="12"/>
+								<item uid="1"/>
+								<item uid="11"/>
+								<entity name="Healthcare_savings"/>
+								<item uid="4"/>
+								<item uid="5"/>
+								<entity name="Smokers_quitting"/>
+								<entity name="Smoking_cessation_service_funding"/>
+								<entity name="Ex_smokers"/>
+							</isee:visible_list>
+							<isee:highlight_list>
+								<item uid="12"/>
+								<item uid="7"/>
+								<entity name="Spend_per_quitter"/>
+								<item uid="8"/>
+								<entity name="Effect_on_spend_per_quitter"/>
+								<item uid="2"/>
+								<entity name="Current_smokers"/>
+							</isee:highlight_list>
+						</isee:model_view>
+						<stacked_container uid="27" x="569" y="383">
+							<graph axis_label_font_size="9pt" x="394" y="258" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="7" num_y_labels="6" title="Number of ex smokers" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+								<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+									<entity name="Ex_smokers"/>
+									<scale min="0" max="1000"/>
+								</plot>
+							</graph>
+						</stacked_container>
+						<button label="" uid="28" x="152" y="345">
+							<actions>
+								<action>start</action>
+							</actions>
+						</button>
+						<button label="Reset" uid="29" x="152" y="383">
+							<actions>
+								<action>restore_all</action>
+							</actions>
+						</button>
+						<button label="Next" uid="30" x="152" y="423">
+							<actions>
+								<action target="story" story="19" view="2">navigate</action>
+							</actions>
+						</button>
+					</view>
+					<view isee:show_pages="false" page_width="788" page_height="528" type="interface">
+						<style/>
+						<isee:model_view uid="31" x="0" y="0" width="788" height="528" isee:locked="true" zoom="1" center_x="394" center_y="264" locked_view="true" use_visible_list="true">
+							<model name="Top-Level"/>
+							<isee:visible_list>
+								<item uid="13"/>
+								<entity name="Ex_smokers_starting_again"/>
+								<item uid="10"/>
+								<entity name="Ex_smokers"/>
+								<entity name="Smoking_cessation_service_funding"/>
+								<item uid="4"/>
+								<entity name="Smokers_quitting"/>
+								<item uid="5"/>
+								<entity name="Healthcare_savings"/>
+								<item uid="12"/>
+								<item uid="11"/>
+								<item uid="1"/>
+								<entity name="Current_smokers"/>
+								<item uid="2"/>
+								<item uid="8"/>
+								<entity name="Effect_on_spend_per_quitter"/>
+								<item uid="7"/>
+								<entity name="Spend_per_quitter"/>
+							</isee:visible_list>
+							<isee:highlight_list>
+								<item uid="13"/>
+								<entity name="Ex_smokers_starting_again"/>
+								<item uid="10"/>
+							</isee:highlight_list>
+						</isee:model_view>
+						<stacked_container uid="32" x="578" y="379">
+							<graph axis_label_font_size="9pt" x="403" y="254" width="350" height="250" type="time_series" show_grid="false" include_units_in_legend="false" plot_numbers="false" num_x_grid_lines="0" num_y_grid_lines="0" num_x_labels="7" num_y_labels="6" title="Number of ex smokers" left_axis_multi_scale="false" left_axis_auto_scale="true" right_axis_multi_scale="false" right_axis_auto_scale="true">
+								<plot color="blue" pen_width="1" index="0" show_y_axis="true">
+									<entity name="Ex_smokers"/>
+									<scale min="0" max="1000"/>
+								</plot>
+							</graph>
+						</stacked_container>
+						<button label="" uid="33" x="168" y="331">
+							<actions>
+								<action>start</action>
+							</actions>
+						</button>
+						<button label="Reset" uid="34" x="168" y="372">
+							<actions>
+								<action>restore_all</action>
+							</actions>
+						</button>
+						<button label="Home" uid="35" x="168" y="413">
+							<actions>
+								<action target="home_page">navigate</action>
+							</actions>
+						</button>
+					</view>
+				</isee:story>
+			</isee:stories>
+		</views>
+	</model>
+</xmile>
+
