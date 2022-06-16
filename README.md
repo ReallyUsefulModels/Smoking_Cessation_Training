@@ -9,7 +9,7 @@ It can be installed by creating a python virtual environment and then calling:
 
 `pip install -r requirements.txt`
 
-He has tested it in Linux using python 3.8 and I used python 3.10 in windows - both seemed to work. As we go we will add further unit tests. 
+He has tested it in Linux using python 3.8 and I used python 3.10 in windows - both seemed to work. As we go we will add unit tests to make it more robust.
 
 You will need to obtain the ASDM engine components either from Zhao's repo or use the ones contained in this repository for it to work. 
 
