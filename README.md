@@ -1,5 +1,5 @@
 # Smoking_Cessation_Training
-Trading Smoking Cessation Model
+Training Model - Smoking Cessation
 
 This is the first training model using Wang Zhao's excellent ASDM framework https://github.com/wzh1895/ASDM to get people used to coding SD models in Python.
 
@@ -15,4 +15,4 @@ You will need to obtain the ASDM engine components either from Zhao's repo or us
 
 The final model behaves as per the image below: (Image taken from Stella version)
 
-![Image](https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/Smoking_Cessation_Model.PNG)
+![Smoking_Cessation_Model](https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/Smoking_Cessation_Model.PNG)
