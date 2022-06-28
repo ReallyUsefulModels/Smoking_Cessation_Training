@@ -1,7 +1,7 @@
 # Smoking_Cessation_Training
 Training Model - Smoking Cessation
 
-This is the first training model using Wang Zhao's excellent ASDM framework https://github.com/wzh1895/ASDM to get people used to coding SD models in Python.
+This is the first training model using Wang Zhao's excellent ASDM framework https://github.com/wzh1895/ASDM to get people used to coding SD models in Python. 
 
 The example is purely illustrative but demonstrates the general flow of such models. 
 
