@@ -1,5 +1,5 @@
 -- I used Python v 3.10
-tk
+pysd
 jupyterlab
 numpy
 pandas
