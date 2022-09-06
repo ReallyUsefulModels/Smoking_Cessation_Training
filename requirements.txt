@@ -8,4 +8,3 @@ networkx==2.8.4
 pymc3==3.11.5
 arviz==0.12.1
 streamlit==1.12.2
-tk==0.1.0
