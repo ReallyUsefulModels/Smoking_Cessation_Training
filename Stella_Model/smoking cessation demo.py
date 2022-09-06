@@ -9,7 +9,7 @@ import xarray as xr
 from pysd.py_backend.statefuls import Integ, Initial
 from pysd import Component
 
-__pysd_version__ = "3.2.0"
+__pysd_version__ = "3.6.1"
 
 __data = {"scope": None, "time": lambda: 0}
 
