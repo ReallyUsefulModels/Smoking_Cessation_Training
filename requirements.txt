@@ -1,4 +1,5 @@
 -- I used Python v 3.10
+tk
 jupyterlab
 numpy
 pandas
