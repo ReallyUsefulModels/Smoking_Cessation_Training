@@ -1,11 +1,11 @@
 -- I used Python v 3.10
 pysd
-jupyterlab
-numpy
-pandas
-matplotlib
-scipy
-networkx
-pymc3
-arviz
-streamlit
+jupyterlab==3.4.3
+numpy==1.22.1
+pandas==1.4.2
+matplotlib==3.5.2
+scipy==1.7.3
+networkx==2.8.4
+pymc3==3.11.5
+arviz==0.12.1
+streamlit==1.12.2
