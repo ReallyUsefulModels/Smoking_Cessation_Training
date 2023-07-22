@@ -1,46 +1,50 @@
-import math
 import pandas as pd
 import streamlit as st
-from ASDM.Engine import Structure
-from ASDM.Utilities import plot_time_series
-from IPython.display import Image
+import plotly.graph_objects as go
+from ASDM.ASDM import Structure
 
-# Name the app
+def load_model(model_path):
+    try:
+        model = Structure(from_xmile=model_path)
+    except FileNotFoundError:
+        st.error(f"File {model_path} not found.")
+        return None
+    return model
+
+def run_simulation(model, simulation_time, re_investment):
+    model.sim_specs['initial_time'] = 0
+    model.sim_specs['current_time'] = 0
+    model.sim_specs['dt'] = 1
+    model.sim_specs['simulation_time'] = simulation_time
+    model.sim_specs['time_units'] = 'Months'
+
+    model.clear_last_run()
+
+    model.aux_equations['percentageOfSavingsSpentOnCessation'] = str(re_investment)
+
+    model.simulate()
+
+    results = model.export_simulation_result()
+    results_df = pd.DataFrame.from_dict(results)
+
+    columns_to_plot = ["Current_smokers", "Ex_smokers", "Ex_smokers_starting_again"]
+    return results_df['Months'], results_df[columns_to_plot]
 
 st.title('Smoking Cessation Machine')
-
-# Add Variables to the Smoking Cessation SD Class object
-
 st.subheader('Slide the Slider to Vary Re-Investment Levels')
 
-re_investment = st.slider("Proportion of Savings Spent on Cessation", 1, 100, 1)
+model = load_model('models/smoking cessation demo.stmx')
 
-class SmokingCessation(Structure):
-    def __init__(self):
-        super(SmokingCessation, self).__init__()
-        self.add_stock("currentSmokers", 900, non_negative=True)
-        self.add_stock("exSmokers", 100, non_negative=True)
-        self.add_stock("lapsedExSmokers", 0, non_negative=True)
-        self.add_flow("smokersQuitting", "smokingCessationServiceFunding/spendPerQuitter", flow_from='currentSmokers', flow_to="exSmokers")        
-        self.add_flow("exSmokersStartingAgain", "exSmokers*averageQuitterFailureRate", flow_from='exSmokers', flow_to="lapsedExSmokers")
-        self.add_aux("effectOnSpendPerQuitter", "currentSmokers/init(currentSmokers)")
-        self.add_aux("spendPerQuitter", "200/effectOnSpendPerQuitter")
-        self.add_aux("percentageOfSavingsSpentOnCessation", re_investment)                
-        self.add_aux("averageQuitterFailureRate", 0.05)
-        self.add_aux("healthcareSavings", "exSmokers*monthlyCostSavingsPerExSmoker")
-        self.add_aux("smokingCessationServiceFunding", "(healthcareSavings*percentageOfSavingsSpentOnCessation)/100")
-        self.add_aux("monthlyCostSavingsPerExSmoker", 50)
+if model is not None:
+    re_investment = st.slider("Proportion of Savings Spent on Cessation", 0, 100, 45)
+    simulation_time = st.slider("Select the number of months to simulate:", min_value=1, max_value=36, value=24)
 
-# Create an instance of the model
+    x_values, y_values = run_simulation(model, simulation_time, re_investment)
 
-smoking_model = SmokingCessation()
-smoking_model.clear_last_run()
-smoking_model.simulate(simulation_time=36, dt=0.25)
+    st.subheader('Effects of Re-Investment on Smoking Levels')
 
-# Export the Simulation Results
-
-df_smoking_outcome = smoking_model.export_simulation_result()
-df_smoking = df_smoking_outcome[['currentSmokers', 'exSmokers', 'exSmokersStartingAgain']]
-
-st.subheader('Effects of Re-Investment on Smoking Levels')
-st.line_chart(df_smoking)
+    fig = go.Figure()
+    for column in y_values.columns:
+        fig.add_trace(go.Scatter(x=x_values, y=y_values[column], mode='lines', name=column))
+    fig.update_layout(xaxis_title='Months', yaxis_title='Number of Smokers', autosize=False, width=800, height=500)
+    st.plotly_chart(fig)
