@@ -30,7 +30,14 @@ def run_simulation(model, simulation_time, re_investment):
     columns_to_plot = ["Current_smokers", "Ex_smokers", "Ex_smokers_starting_again"]
     return results_df['Months'], results_df[columns_to_plot]
 
-st.title('Smoking Cessation Machine')
+st.title('Smoking Cessation')
+
+st.markdown("""
+This simulation estimates the effects of various reinvestment levels in a smoking cessation service within a population of 900 smokers. 
+By varying the proportion of savings that are reinvested into the service, we can observe different outcomes in terms of current smokers, ex-smokers, 
+and ex-smokers who start smoking again over time.
+""")
+            
 st.subheader('Slide the Slider to Vary Re-Investment Levels')
 
 model = load_model('models/smoking cessation demo.stmx')
