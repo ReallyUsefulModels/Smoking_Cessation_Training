@@ -7,7 +7,7 @@ This is the first training model the ASDM framework https://github.com/wzh1895/A
 
 The model imagines a health system where a decision has to be made about re-investment rates from a smoking cessation program:
 
-![Smoking_Cessation_Model](https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/Smoking_Cessation_Model.PNG)
+![Smoking_Cessation_Model](https://github.com/ReallyUsefulModels/Smoking_Cessation_Training/blob/main/assets/Smoking_Cessation_Model.PNG)
 
 ### Model Demo
 
