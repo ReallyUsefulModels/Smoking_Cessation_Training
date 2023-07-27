@@ -20,7 +20,7 @@ def run_simulation(model, simulation_time, re_investment):
 
     model.clear_last_run()
 
-    model.aux_equations['percentageOfSavingsSpentOnCessation'] = str(re_investment)
+    model.replace_element_equation('Percentage_of_savings_spent_on_cessation', re_investment)
 
     model.simulate()
 
